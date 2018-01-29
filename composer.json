@@ -1,9 +1,9 @@
 {
     "name": "mmc/zinio-test",
     "require": {
-        "phpmd/phpmd": "*"
     },
     "require-dev": {
+        "phpmd/phpmd": "*",
         "phpunit/phpunit": "^6.5",
         "squizlabs/php_codesniffer": "*",
         "sebastian/phpcpd": "^3.0"

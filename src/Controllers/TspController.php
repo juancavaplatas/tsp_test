@@ -4,6 +4,7 @@ namespace src\Controllers;
 
 use src\Entities\Route as Route;
 use src\Factories\RouteFactory as RouteFactory;
+use src\Repositories\RouteRepository as RouteRepository;
 use src\Utils\MathOperation as MathOperation;
 
 /**
@@ -33,18 +34,28 @@ class TspController
     private $pendingPerms = 0;
 
     /**
+     * Route repository
+     *
+     * @var RouteRepository $routeRepository
+     */
+    public $routeRepository;
+
+    /**
      * Init algorithm params
      *
-     * @param Route $route
-     * @param int   $maxTime Time execution time in miliseconds
+     * @param array $config
      *
      * @return void
      */
-    public function __construct(Route $route, float $maxTime)
+    public function __construct(array $config)
     {
-        $this->minRoute = $route;
+        $maxTime = $config["maxExecutionTime"];
         $datetime = new \DateTime();
         $this->finishTime = $datetime->getTimestamp() + $maxTime;
+        $this->routeRepository = new RouteRepository($config);
+        $firstRoute = $this->routeRepository->findFirst();
+        $firstRoute = $this->routeRepository->findFirst();
+        $this->setMinRoute($firstRoute);
     }
 
     /**
@@ -113,7 +124,7 @@ class TspController
     private function updateMinRoute(Route $route)
     {
         if ($this->minRoute->getRouteDistance() > $route->getRouteDistance()) {
-            $this->minRoute = $route;
+            $this->setMinRoute($route);
         }
     }
 
@@ -128,6 +139,18 @@ class TspController
     }
 
     /**
+     * Set minRoute value
+     *
+     * @param Route $route
+     *
+     * @return void
+     */
+    public function setMinRoute(Route $route)
+    {
+        $this->minRoute = $route;
+    }
+
+    /**
      * Start computing route permutations
      *
      * @return void
@@ -135,7 +158,7 @@ class TspController
     public function start()
     {
         // Init cities array
-        $cities = $this->minRoute->getCities();
+        $cities = $this->getMinRoute()->getCities();
 
         // Using brute force, we will need to compute the first n! / 2 options
         $this->pendingPerms = MathOperation::factorial(count($cities)) / 2;
