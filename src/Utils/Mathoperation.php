@@ -17,7 +17,7 @@ class MathOperation
      */
     public static function distance2d(array $pnt1, array $pnt2)
     {
-        return sqrt( pow($pnt1[0] - $pnt2[0], 2) + pow($pnt1[1] - $pnt2[1], 2) );
+        return sqrt(pow($pnt1[0] - $pnt2[0], 2) + pow($pnt1[1] - $pnt2[1], 2));
     }
 
     /**

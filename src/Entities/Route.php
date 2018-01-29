@@ -15,7 +15,7 @@ class Route
      *
      * @var array $cities
      */
-    private $_cities = [];
+    private $cities = [];
 
     /**
      * Calculate distance between cities
@@ -39,7 +39,7 @@ class Route
      */
     public function addCity(City $city)
     {
-        $this->_cities[] = $city;
+        $this->cities[] = $city;
     }
 
     /**
@@ -49,7 +49,7 @@ class Route
      */
     public function getCities() : array
     {
-        return $this->_cities;
+        return $this->cities;
     }
 
     /**
@@ -60,8 +60,8 @@ class Route
     public function getRouteDistance() : float
     {
         $distance = 0.0;
-        for ($i = 1; $i < count($this->_cities); $i++) {
-            $distance += $this->getCitiesDistance($this->_cities[$i], $this->_cities[$i-1]);
+        for ($i = 1; $i < count($this->cities); $i++) {
+            $distance += $this->getCitiesDistance($this->cities[$i], $this->cities[$i-1]);
         }
 
         return $distance;
@@ -72,7 +72,7 @@ class Route
      */
     public function printRoute()
     {
-        foreach ($this->_cities as $city) {
+        foreach ($this->cities as $city) {
             echo $city->getName() . "\n";
         }
     }

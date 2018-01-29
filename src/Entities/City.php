@@ -10,32 +10,32 @@ class City
     /**
      * City x gps coord
      *
-     * @var float $coord_x
+     * @var float $coordX
      */
-    public $coord_x;
+    private $coordX;
 
     /**
      * City y gps coord
      *
-     * @var float $coord_y
+     * @var float $coordY
      */
-    public $coord_y;
+    private $coordY;
 
     /**
      * City name
      *
-     * @var float $coord_y
+     * @var string $name
      */
-    public $name;
+    private $name;
 
     /**
-     * Get coord_x attribute
+     * Get coordX attribute
      *
-     * @return float coord_x
+     * @return float coordX
      */
     public function getCoordX() : float
     {
-        return $this->coord_x;
+        return $this->coordX;
     }
 
     /**
@@ -45,7 +45,7 @@ class City
      */
     public function getCoordY() : float
     {
-        return $this->coord_y;
+        return $this->coordY;
     }
 
     /**
@@ -69,33 +69,33 @@ class City
     }
 
     /**
-     * Set coord_x attribute
+     * Set coordX attribute
      *
-     * @param float $coord_x
+     * @param float $coordX City X gps coordenate
      *
      * @return void
      */
-    public function setCoordX(float $coord_x)
+    public function setCoordX(float $coordX)
     {
-        $this->coord_x = $coord_x;
+        $this->coordX = $coordX;
     }
 
     /**
-     * Set coord_y attribute
+     * Set coordY attribute
      *
-     * @param float $coord_y
+     * @param float $coordY City Y gps coordenate
      *
      * @return void
      */
-    public function setCoordY(float $coord_y)
+    public function setCoordY(float $coordY)
     {
-        $this->coord_y = $coord_y;
+        $this->coordY = $coordY;
     }
 
     /**
      * Set name attribute
      *
-     * @param string $name
+     * @param string $name City name
      *
      * @return void
      */

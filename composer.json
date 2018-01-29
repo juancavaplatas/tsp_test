@@ -1,13 +1,24 @@
 {
     "name": "mmc/zinio-test",
-    "require": {},
+    "require": {
+        "phpmd/phpmd": "*"
+    },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
+        "squizlabs/php_codesniffer": "*",
         "sebastian/phpcpd": "^3.0"
     },
     "autoload": {
         "classmap": [
             "src"
+        ]
+    },
+    "scripts": {
+        "test" : [
+            "vendor/bin/phpcpd src",
+            "vendor/bin/phpcbf src",
+            "vendor/bin/phpmd src xml tests/phpmd/ruleset.xml"
+
         ]
     }
 }

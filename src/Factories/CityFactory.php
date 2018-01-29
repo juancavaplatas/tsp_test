@@ -22,15 +22,15 @@ class CityFactory
         $data = explode(" ", $cityString);
 
         // Extract data from array
-        $coord_y = array_pop($data);
-        $coord_x = array_pop($data);
+        $coordY = array_pop($data);
+        $coordX = array_pop($data);
         $name = implode(" ", $data);
 
         // Create and fill entity
         $city = new City();
         $city->setName($name);
-        $city->setCoordX($coord_x);
-        $city->setCoordY($coord_y);
+        $city->setCoordX($coordX);
+        $city->setCoordY($coordY);
 
         // Return entity
         return $city;

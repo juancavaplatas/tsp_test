@@ -14,43 +14,37 @@ class TspController
     /**
      * Counter of maximum number of compute permutation
      *
-     * @var int $_pendingPerms
+     * @var int $pendingPerms
      */
-    private $_pendingPerms = 0;
-
-    /**
-     * Cities array
-     */
-    private $_cities = [];
+    private $pendingPerms = 0;
 
     /**
      * Minimum distance route
      *
-     * @var Route $_minRoute
+     * @var Route $minRoute
      */
-    private $_minRoute;
+    private $minRoute;
 
     /**
      * Finish execution time in timestamp
      *
-     * @var float $_finishTime
+     * @var float $finishTime
      */
-    private $_finishTime = 0;
+    private $finishTime = 0;
 
     /**
      * Init algorithm params
      *
      * @param Route $route
-     * @param int $maxTime Time execution time in miliseconds
+     * @param int   $maxTime Time execution time in miliseconds
      *
      * @return void
      */
     public function __construct(Route $route, float $maxTime)
     {
-        $this->_minRoute = $route;
+        $this->minRoute = $route;
         $datetime = new \DateTime();
-        $this->_finishTime = $datetime->getTimestamp();
-        $this->_finishTime = $datetime->getTimestamp() + $maxTime;
+        $this->finishTime = $datetime->getTimestamp() + $maxTime;
     }
 
     /**
@@ -58,13 +52,13 @@ class TspController
      *
      * @return boolean
      */
-    private function _finishPermConditions()
+    private function finishPermConditions()
     {
         $datetime = new \DateTime();
         $actualTime = $datetime->getTimestamp();
 
 
-        if (!$this->_pendingPerms || $actualTime > $this->_finishTime) {
+        if (!$this->pendingPerms || $actualTime > $this->finishTime) {
             return true;
         }
 
@@ -80,18 +74,18 @@ class TspController
      *
      * @return void
      */
-    private function _computePermutation($items, $perms = array())
+    private function computePermutation($items, $perms = array())
     {
         // We found a new permutation
-        if (empty($items) && !$this->_finishPermConditions()) {
+        if (empty($items) && !$this->finishPermConditions()) {
 
             // Create route and try to update by minimum distance
             $route = RouteFactory::create($perms);
-            $this->_updateMinRoute($route);
+            $this->updateMinRoute($route);
 
             // Prepare next router permutation
             $return = array($perms);
-            $this->_pendingPerms--;
+            $this->pendingPerms--;
 
         }  else {
             $return = array();
@@ -100,8 +94,8 @@ class TspController
                  $newperms = $perms;
                  list($foo) = array_splice($newitems, $i, 1);
                  array_unshift($newperms, $foo);
-                 $return = array_merge($return, $this->_computePermutation($newitems, $newperms));
-             }
+                 $return = array_merge($return, $this->computePermutation($newitems, $newperms));
+            }
         }
         return $return;
     }
@@ -113,10 +107,10 @@ class TspController
      *
      * @return void
      */
-    private function _updateMinRoute(Route $route)
+    private function updateMinRoute(Route $route)
     {
-        if ($this->_minRoute->getRouteDistance() > $route->getRouteDistance()) {
-            $this->_minRoute = $route;
+        if ($this->minRoute->getRouteDistance() > $route->getRouteDistance()) {
+            $this->minRoute = $route;
         }
     }
 
@@ -127,7 +121,7 @@ class TspController
      */
     public function getMinRoute() : Route
     {
-        return $this->_minRoute;
+        return $this->minRoute;
     }
 
     /**
@@ -138,13 +132,13 @@ class TspController
     public function start()
     {
         // Init cities array
-        $cities = $this->_minRoute->getCities();
+        $cities = $this->minRoute->getCities();
 
         // Using brute force, we will need to compute the first n! / 2 options
-        $this->_pendingPerms = MathOperation::factorial(count($cities)) / 2;
+        $this->pendingPerms = MathOperation::factorial(count($cities)) / 2;
 
         // Start computing route permutations
-        $this->_computePermutation($cities);
+        $this->computePermutation($cities);
     }
 }
 
