@@ -17,8 +17,8 @@
         "test" : [
             "vendor/bin/phpcpd src",
             "vendor/bin/phpcbf src",
-            "vendor/bin/phpmd src xml tests/phpmd/ruleset.xml"
-
+            "vendor/bin/phpmd src xml tests/phpmd/ruleset.xml",
+            "vendor/bin/phpunit -c tests/phpunit/phpunit.xml"
         ]
     }
 }

@@ -12,11 +12,11 @@ use src\Utils\MathOperation as MathOperation;
 class TspController
 {
     /**
-     * Counter of maximum number of compute permutation
+     * Finish execution time in timestamp
      *
-     * @var int $pendingPerms
+     * @var float $finishTime
      */
-    private $pendingPerms = 0;
+    private $finishTime = 0;
 
     /**
      * Minimum distance route
@@ -26,11 +26,11 @@ class TspController
     private $minRoute;
 
     /**
-     * Finish execution time in timestamp
+     * Counter of maximum number of compute permutations
      *
-     * @var float $finishTime
+     * @var int $pendingPerms
      */
-    private $finishTime = 0;
+    private $pendingPerms = 0;
 
     /**
      * Init algorithm params
@@ -57,8 +57,7 @@ class TspController
         $datetime = new \DateTime();
         $actualTime = $datetime->getTimestamp();
 
-
-        if (!$this->pendingPerms || $actualTime > $this->finishTime) {
+        if ($this->pendingPerms == 0 || $actualTime >= $this->finishTime) {
             return true;
         }
 
@@ -77,7 +76,7 @@ class TspController
     private function computePermutation($items, $perms = array())
     {
         // We found a new permutation
-        if (empty($items) && !$this->finishPermConditions()) {
+        if (empty($items)) {
 
             // Create route and try to update by minimum distance
             $route = RouteFactory::create($perms);
@@ -87,14 +86,18 @@ class TspController
             $return = array($perms);
             $this->pendingPerms--;
 
-        }  else {
+        } else {
             $return = array();
             for ($i = count($items) - 1; $i >= 0; --$i) {
-                 $newitems = $items;
-                 $newperms = $perms;
-                 list($foo) = array_splice($newitems, $i, 1);
-                 array_unshift($newperms, $foo);
-                 $return = array_merge($return, $this->computePermutation($newitems, $newperms));
+                $newitems = $items;
+                $newperms = $perms;
+                list($foo) = array_splice($newitems, $i, 1);
+                array_unshift($newperms, $foo);
+
+                // Next iteration depending perms conditions
+                if (!$this->finishPermConditions()) {
+                    $return = array_merge($return, $this->computePermutation($newitems, $newperms));
+                }
             }
         }
         return $return;

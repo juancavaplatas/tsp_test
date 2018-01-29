@@ -1,0 +1,10 @@
+<phpunit bootstrap="../../vendor/autoload.php">
+    <testsuites>
+        <testsuite name="Zinio application test">
+            <directory>Controllers</directory>
+            <directory>Entities</directory>
+            <directory>Factories</directory>
+            <directory>Utils</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

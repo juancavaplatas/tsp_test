@@ -69,6 +69,8 @@ class Route
 
     /**
      * Print route by console
+     *
+     * @return void
      */
     public function printRoute()
     {

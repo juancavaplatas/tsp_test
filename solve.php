@@ -22,8 +22,10 @@ $initRoute = RouteFactory::create($cities);
 
 // Create and launch the TSP controller
 $maxTime = 15 * 60; // 15 minutes to seconds
-$maxTime = 15;
+$maxTime = 2 * 60;
 $tspController = new TspController($initRoute, $maxTime);
+
+$route = $tspController->getMinRoute();
 $tspController->start();
 
 // Get best route
